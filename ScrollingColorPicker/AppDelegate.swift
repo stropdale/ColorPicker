@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  Color Picker
+//  ScrollingColorPicker
 //
-//  Created by Richard Stockdale on 22/11/2020.
+//  Created by Richard Stockdale on 06/12/2020.
 //
 
 import UIKit
