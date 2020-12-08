@@ -15,16 +15,34 @@ class ColorPickerView: UIView {
     
     public var backingColor: UIColor = .systemBackground
     public var delegate: ColorPickerViewDelegate?
-    
     private var selectedColorIndex = 0
     
     private let colorPickerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .clear
+        
         return cv
     }()
+    
+    override var bounds: CGRect {
+        didSet {
+            
+            // For the mac, side to side scrolling is problematic.
+            // Remove the need to scroll
+            #if targetEnvironment(macCatalyst)
+            let layout = UICollectionViewFlowLayout()
+            let numOfColors = SelectableColors.colors.count
+            layout.itemSize = CGSize(width: bounds.width / CGFloat(numOfColors), height: bounds.height)
+            layout.minimumInteritemSpacing = 0
+            layout.minimumLineSpacing = 0
+            colorPickerCollectionView.collectionViewLayout = layout
+            #endif
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
