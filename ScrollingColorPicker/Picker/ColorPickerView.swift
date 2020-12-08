@@ -15,6 +15,12 @@ class ColorPickerView: UIView {
     
     public var backingColor: UIColor = .systemBackground
     public var delegate: ColorPickerViewDelegate?
+    public var selectedColor: UIColor? {
+        didSet {
+            colorPickerCollectionView.reloadData()
+        }
+    }
+    
     private var selectedColorIndex = 0
     
     private let colorPickerCollectionView: UICollectionView = {
@@ -77,6 +83,7 @@ extension ColorPickerView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedColorIndex = indexPath.row
         let c = SelectableColors.colors [selectedColorIndex]
+        self.selectedColor = c
         delegate?.selectedColor(color: c)
         collectionView.reloadData()
     }
@@ -92,7 +99,7 @@ extension ColorPickerView: UICollectionViewDataSource {
         let c = SelectableColors.colors[indexPath.row]
         cell.configure(selectableColor: c,
                        backingViewColor: backingColor,
-                       selected: indexPath.row == selectedColorIndex)
+                       selected: c == selectedColor)
         
         return cell
     }
