@@ -21,8 +21,5 @@ class ViewController: UIViewController, ColorPickerViewDelegate {
     func selectedColor(color: UIColor) {
         pickedColor.backgroundColor = color
     }
-    
-
-
 }
 
